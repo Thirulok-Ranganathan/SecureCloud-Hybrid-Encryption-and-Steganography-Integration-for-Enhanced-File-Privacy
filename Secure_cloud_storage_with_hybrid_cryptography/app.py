@@ -1,9 +1,11 @@
-from flask import Flask, send_file, session, render_template, request, redirect
-import pyrebase,requests, rsa
+from flask import Flask, send_file, session, render_template, request, redirect, make_response
+import pyrebase,requests, rsa, stepic
 from firebase_admin import storage
 from Crypto.Cipher import AES, PKCS1_OAEP
 from Crypto.PublicKey import RSA
 from Crypto.Util.Padding import pad, unpad
+from cryptography.fernet import Fernet
+from PIL import Image
 
 
 app = Flask(__name__)
@@ -19,6 +21,7 @@ Config = {
   'databaseURL' : ''
 }
 
+# authentication and keys
 firebase = pyrebase.initialize_app(Config)
 auth = firebase.auth()
 app.secret_key = 'closetheeyes'
@@ -26,6 +29,7 @@ ivs = 'wegotit'
 key = RSA.generate(3072)
 pubkey = key.publickey().export_key('PEM')
 prikey = key.export_key('PEM')
+ferkey = Fernet.generate_key()
 
 # login user or Homepage
 
@@ -88,6 +92,7 @@ def upload_file():
             return 'No file selected'
         file_name = request.form.get('file_name')
         cloud_name = email+'/'+file_name
+        img_file = request.files['upload_image']
 
         # Encrypting the data and key
         key = pwd.encode('UTF-8')
@@ -105,11 +110,19 @@ def upload_file():
         cipher = AES.new(key, AES.MODE_CBC, iv)
         ciphertext = cipher.encrypt(new_data)
 
+        #Working on secret_keys
+
+        enc = Fernet(ferkey)
+        key_enc = enc.encrypt(prikey)
+        img = Image.open(img_file)
+        img_stego = stepic.encode(img, key_enc)
+        img_stego.save("key_image.png")
+
+        with open('key.txt','wb') as maif:
+            maif.write(ferkey)
+        
+
         #Now rsa encrypt
-
-        with open('privatekey.pem','wb') as pkf:
-            pkf.write(prikey)
-
         message = ciphertext
         puky = RSA.import_key(pubkey)
         new_cipher = PKCS1_OAEP.new(puky)
@@ -120,7 +133,6 @@ def upload_file():
         try:
             storage.child(cloud_name).put(encytxt)
             return render_template('success.html')
-        
         except Exception as e:
             print(str(e))
             return 'Error uploading file'
@@ -135,17 +147,24 @@ def download_file():
         if request.method == 'POST':
             file_name = request.form.get('download_file_name')
             cloud_name = email+'/'+file_name
-            key_file = request.form.get('key_file_from_user')
-            key_bytes = (open(key_file,'rb').read())
-            
+            key_file = request.files['key_file_from_user']
+            key_value = request.files['key_text']
+            simg = Image.open(key_file)
+            value_byte_key = key_value.read()
 
             # Getting the file from cloud
             encrypted_file = storage.child(cloud_name).get_url(None)
             response_file = requests.get(encrypted_file)
             bytes_data = response_file.content
 
+            #image to key
+            decode_img = stepic.decode(simg)
+            dec = Fernet(value_byte_key)
+            disp = dec.decrypt(decode_img.encode())
+            
+
             #rsa contents
-            pkey = RSA.import_key(key_bytes)
+            pkey = RSA.import_key(disp.decode())
             nw_cip = PKCS1_OAEP.new(pkey)
             ori_enc = nw_cip.decrypt(bytes_data)
 

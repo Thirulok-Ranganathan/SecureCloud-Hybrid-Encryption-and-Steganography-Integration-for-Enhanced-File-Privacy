@@ -10,12 +10,14 @@
 </head>
 <body>
     
-    <form action="/download" method="POST">
+    <form action="/download" method="POST" enctype="multipart/form-data">
         <title>Download File</title>
         <label for="download">Enter file name:  </label>
         <input type="text" name="download_file_name" placeholder="Enter file name"><br>
-        <label for="key">Upload the key:</label>
+        <label for="key">Upload the key image:</label>
         <input type="file" name="key_file_from_user" placeholder="Choose file"><br>
+        <label for="key_num">Upload the key text:</label>
+        <input type="file" name="key_text" placeholder="Upload text"><br>
         <input type="submit" value="Download">
     </form>
 </body>
