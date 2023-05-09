@@ -1,7 +1,8 @@
 from flask import Flask, send_file, session, render_template, request, redirect
-import pyrebase,requests
+import pyrebase,requests, rsa
 from firebase_admin import storage
-from Crypto.Cipher import AES
+from Crypto.Cipher import AES, PKCS1_OAEP
+from Crypto.PublicKey import RSA
 from Crypto.Util.Padding import pad, unpad
 
 
@@ -22,6 +23,9 @@ firebase = pyrebase.initialize_app(Config)
 auth = firebase.auth()
 app.secret_key = 'closetheeyes'
 ivs = 'wegotit'
+key = RSA.generate(3072)
+pubkey = key.publickey().export_key('PEM')
+prikey = key.export_key('PEM')
 
 # login user or Homepage
 
@@ -101,11 +105,20 @@ def upload_file():
         cipher = AES.new(key, AES.MODE_CBC, iv)
         ciphertext = cipher.encrypt(new_data)
 
+        #Now rsa encrypt
+
+        with open('privatekey.pem','wb') as pkf:
+            pkf.write(prikey)
+
+        message = ciphertext
+        puky = RSA.import_key(pubkey)
+        new_cipher = PKCS1_OAEP.new(puky)
+        encytxt = new_cipher.encrypt(message)
 
         #uploading
 
         try:
-            storage.child(cloud_name).put(ciphertext)
+            storage.child(cloud_name).put(encytxt)
             return render_template('success.html')
         
         except Exception as e:
@@ -122,11 +135,20 @@ def download_file():
         if request.method == 'POST':
             file_name = request.form.get('download_file_name')
             cloud_name = email+'/'+file_name
+            key_file = request.form.get('key_file_from_user')
+            key_bytes = (open(key_file,'rb').read())
+            
 
             # Getting the file from cloud
             encrypted_file = storage.child(cloud_name).get_url(None)
             response_file = requests.get(encrypted_file)
             bytes_data = response_file.content
+
+            #rsa contents
+            pkey = RSA.import_key(key_bytes)
+            nw_cip = PKCS1_OAEP.new(pkey)
+            ori_enc = nw_cip.decrypt(bytes_data)
+
             # decrypting AES
             key = pwd.encode('UTF-8')
             key = pad(key, AES.block_size)
@@ -137,7 +159,7 @@ def download_file():
             
             
             AES_obj = AES.new(key, AES.MODE_CBC, iv)
-            cl_file = AES_obj.decrypt(bytes_data)
+            cl_file = AES_obj.decrypt(ori_enc)
             source_content = unpad(cl_file, AES.block_size)
             
 
