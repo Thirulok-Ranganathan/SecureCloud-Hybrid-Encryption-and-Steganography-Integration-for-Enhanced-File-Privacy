@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download</title>
+    <link rel="stylesheet" type="text/css" href="/static/download.css">
+</head>
+<body>
+    
+    <form action="/download" method="POST" enctype="multipart/form-data">
+        <title>Download File</title>
+        <label for="download">Enter file name:  </label>
+        <input type="text" name="download_file_name" placeholder="Enter file name"><br>
+        <label for="key">Upload the key image:</label>
+        <input type="file" name="key_file_from_user" placeholder="Choose file"><br>
+        <label for="key_num">Upload the key text:</label>
+        <input type="file" name="key_text" placeholder="Upload text"><br>
+        <input type="submit" value="Download">
+    </form>
+</body>
+</html>

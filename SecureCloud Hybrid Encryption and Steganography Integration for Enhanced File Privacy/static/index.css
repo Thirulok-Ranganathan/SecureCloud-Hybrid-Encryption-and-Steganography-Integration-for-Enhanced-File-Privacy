@@ -1,0 +1,80 @@
+header {
+    background-color: #333333;
+    padding: 10px;
+    display: flex;
+    color: white;
+    justify-content: flex-end;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+body{
+    background-image: url(https://www.connectria.com/wp-content/uploads/2019/06/cloud_technology_trends.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: black;
+}
+
+header a {
+    color: black;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 40px;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff0000;
+    cursor: pointer;
+}
+.content h1{
+    margin-bottom: -12px;
+}
+.content h2{
+    margin-top: 1px;
+}
+
+h6{
+    margin: auto;
+    margin-top: 2px;
+}
+h5{
+    margin: auto;
+}
+footer{
+    background-color: #333333;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+div{
+    text-align: center;
+    margin-top: 16%;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.button {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: green;
+    cursor: pointer;
+}
+#logout_sign{
+    padding-left: 3px;
+    padding-top: 4px;
+}

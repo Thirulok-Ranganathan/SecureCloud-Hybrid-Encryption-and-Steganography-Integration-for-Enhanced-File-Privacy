@@ -1,0 +1,53 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #dbdada;
+  padding: 20px;
+  background-image: url(https://www.globalittraining.net/img/og/OG-Tag-Image_Cloud-Training_06-2021_Landing.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 12%;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-image: url(https://c0.wallpaperflare.com/preview/697/898/445/cloud-computing-illustration-technology.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: aqua;
+}
+
+input[type="file"], input[type="text"] {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  color: black;
+  margin-bottom: 10px;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  margin-top: 5px;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Based Secure File Storage</title>
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h3>Hello, {{ session['usrname'] }}</h3>
+    <a href="/logout"><b>Logout</b><i class="fas fa-sign-out-alt" id="logout_sign"></i></a>
+    </header>
+    
+    
+    <div class="content">
+        <h1>SecureCloud:</h1><br><h2>Hybrid Encryption and Steganography Integration for Enhanced File Privacy</h2>
+        <div class="button-container">
+            <a href="/upload" class="button"><i class="fas fa-cloud-upload-alt"></i><b> Upload</b></a><br>
+    <a href="/download" class="button"><i class="fas fa-cloud-download-alt"></i> <b>Download</b> </a><br>
+        </div>
+    </div>
+    
+    <footer>
+        <h5>Developed by:</h5>
+        <h6>THIRULOK R</h6>
+        <h6>SENTHIL KUMAR B</h6>
+        <h6>SUNDARA DAMODHARAN M K</h6>
+    </footer>
+</body>
+</html>
