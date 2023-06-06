@@ -11,22 +11,14 @@ from PIL import Image
 app = Flask(__name__)
 
 Config = {
-  'apiKey': "AIzaSyAzStENNKhEl1FEIsUitAQPj8b3W-9eKl0",
-  'authDomain': "cloudstorage-c094b.firebaseapp.com",
-  'projectId': "cloudstorage-c094b",
-  
-  'storageBucket': "cloudstorage-c094b.appspot.com",
-  'messagingSenderId': "493585810197",
-  'appId': "1:493585810197:web:8e19eb174dbd4cf7a19f1c",
-  'measurementId': "G-Q7QQL6MJZ6",
-  'databaseURL' : ''
+  <Add your Config here>
 }
 
 # authentication and keys
 firebase = pyrebase.initialize_app(Config)
 auth = firebase.auth()
-app.secret_key = 'closetheeyes'
-ivs = 'wegotit'
+app.secret_key = '<Add your secret key>'
+ivs = '<Add your rsa key>'
 key = RSA.generate(3072)
 pubkey = key.publickey().export_key('PEM')
 prikey = key.export_key('PEM')
