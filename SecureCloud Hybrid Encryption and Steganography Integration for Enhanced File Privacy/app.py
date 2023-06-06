@@ -14,6 +14,7 @@ Config = {
   'apiKey': "AIzaSyAzStENNKhEl1FEIsUitAQPj8b3W-9eKl0",
   'authDomain': "cloudstorage-c094b.firebaseapp.com",
   'projectId': "cloudstorage-c094b",
+  
   'storageBucket': "cloudstorage-c094b.appspot.com",
   'messagingSenderId': "493585810197",
   'appId': "1:493585810197:web:8e19eb174dbd4cf7a19f1c",
@@ -124,9 +125,9 @@ def upload_file():
         key_enc = enc.encrypt(prikey)
         img = Image.open(img_file)
         img_stego = stepic.encode(img, key_enc)
-        img_stego.save(filename_no_ext+"keyimage.png")
+        img_stego.save("data/exports"+"/"+filename_no_ext+"keyimage.png")
 
-        with open(filename_no_ext+'keytext.txt','wb') as maif:
+        with open("data/exports"+"/"+filename_no_ext+'keytext.txt','wb') as maif:
             maif.write(ferkey)
         
 
